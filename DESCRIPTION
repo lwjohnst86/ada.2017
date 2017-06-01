@@ -1,0 +1,34 @@
+Package: ada.2017
+Title: Abstract and Presentation Files for ADA 2017
+Version: 0.0.1.9000
+Authors@R: person("Luke", "Johnston", email = "lwjohnst@gmail.com", role = c("aut", "cre"))
+Description: Contains the files and R functions used to create the abstract and
+    presentation files for the 2017 American Diabetes Association conference.
+Depends:
+    R (>= 3.3.1)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports:
+    devtools,
+    PROMISE,
+    dplyr,
+    stats,
+    tidyr,
+    magrittr,
+    broom,
+    mason,
+    seer,
+    gridExtra,
+    ggplot2,
+    scales,
+    forcats
+Remotes: bitbucket::PROMISE-cohort/PROMISE,
+    lwjohnst86/seer
+RoxygenNote: 5.0.1
+URL: https://github.com/lwjohnst86/ada.2017
+BugReports: https://github.com/lwjohnst86/ada.2017/issues
