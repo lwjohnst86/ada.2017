@@ -75,7 +75,8 @@ plot_gee_main <- function(results) {
             legend.title = 'P-value',
             xlab = 'Points indicate standard deviation difference with 95% CI\nin the outcomes for every 1 unit increase in the cluster',
             ylab = 'PLS clusters of\n TGFA composition',
-            group.label.switch = 'both'
+            group.label.switch = 'both',
+            dot.colour = "#D9853B"
             ) +
         graph_theme(ticks = FALSE) +
         ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(2)) +

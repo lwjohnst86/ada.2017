@@ -47,7 +47,7 @@ plot_heatmap <- function(results, text = TRUE, unit = 'nmol/mL') {
             y = 'Vars1',
             x = 'Vars2',
             ylab = paste0('Triacylglycerol fatty acids (', unit, ')'),
-            colours = c("darkorange2", "skyblue4"),
+            colours = c("#558C89", "#D9853B"),
             number.colours = 5,
             values.text = text,
             values.size = 4) +

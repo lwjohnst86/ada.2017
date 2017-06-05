@@ -23,17 +23,30 @@ plot_tagfa_distribution <- function() {
         dplyr::mutate(Measure = forcats::fct_inorder(Measure)) %>%
         seer::view_boxplots(
             'Measure', 'Value',
-            dot.colour = "palegreen4",
-            xlab = 'Concentration (nmol/mL)',
-            ylab = 'Triacylglyceride fatty acids') +
+            dot_colour = "#D9853B") +
+        ggplot2::labs(
+            x = 'Concentration (nmol/mL)',
+            y = 'Triacylglyceride fatty acids') +
         graph_theme(ticks = FALSE)
 }
 
 #' Plot of MetS components over time.
 #'
 plot_mets_over_time <- function() {
-    project_data %>%
-        dplyr::select(VN, Waist, HDL, TAG, Glucose0, MeanArtPressure) %>%
+
+    pval_data <- project_data %>%
+        mason::design('gee') %>%
+        mason::add_settings(cluster.id = "SID", corstr = "ar1") %>%
+        mason::add_variables("yvars", outcomes) %>%
+        mason::add_variables("xvars", "VN") %>%
+        mason::construct() %>%
+        mason::scrub() %>%
+        dplyr::filter(term == "<-Xterm") %>%
+        dplyr::mutate(p.value = aide::format_p(p.value)) %>%
+        dplyr::select(Yterms, p.value)
+
+    pre_data <- project_data %>%
+        dplyr::select_(.dots = c("VN", outcomes)) %>%
         tidyr::gather(Measure, Value,-VN) %>%
         dplyr::mutate(
             Measure = forcats::fct_recode(
@@ -44,9 +57,17 @@ plot_mets_over_time <- function() {
                 "Tg (mmol/L)" = "TAG",
                 "WC (cm)" = "Waist"
                 )
-        ) %>%
+        )
+
+    relabel_fun <- function(x, pval) {
+        pval_equal_sign <- gsub("^([01]\\.)", "=\\1", pval)
+        paste(x, pval_equal_sign, sep = "; p")
+    }
+
+    pre_data %>%
+        dplyr::mutate(Measure = forcats::fct_relabel(pre_data$Measure, relabel_fun, pval = pval_data$p.value)) %>%
         ggplot2::ggplot(ggplot2::aes(x = VN, y = Value)) +
-        ggplot2::geom_smooth(method = "loess", colour = "palegreen4") +
+        ggplot2::geom_smooth(method = "loess", colour = "#D9853B", fill = "#ECECEA") +
         ggplot2::facet_wrap( ~ Measure, ncol = 1, scale = "free") +
         ggplot2::scale_x_continuous(breaks = c(0, 1, 2),
                                     labels = c("0-yr", "3-yr", "6-yr")) +

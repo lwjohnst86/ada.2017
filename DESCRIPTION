@@ -26,9 +26,12 @@ Imports:
     gridExtra,
     ggplot2,
     scales,
-    forcats
+    forcats,
+    aide,
+    rfigshare
 Remotes: bitbucket::PROMISE-cohort/PROMISE,
     lwjohnst86/seer
+    lwjohnst86/aide
 RoxygenNote: 5.0.1
 URL: https://github.com/lwjohnst86/ada.2017
 BugReports: https://github.com/lwjohnst86/ada.2017/issues
